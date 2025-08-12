@@ -1,3 +1,4 @@
+const { default: axios } = require('axios')
 const Track = require('../models/Track')
 
 // post for create
@@ -75,10 +76,27 @@ async function deleteTrack(req,res) {
     }
 }
 
+// third party api
+async function seeTracksGenre(req, res) {
+    try {
+        const response = await axios.get(`https://musicbrainz.org/ws/2/genre/all?fmt=json`)
+        
+        if (response.data) {
+            res.status(200).json(response.data)
+        }else{
+            res.sendStatus(404)
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error : error.message})
+    }
+}
+
 module.exports = {
     createTrack,
     getAllTracks,
     getOneTrack,
     updateTrack,
-    deleteTrack
+    deleteTrack,
+    seeTracksGenre
 }
