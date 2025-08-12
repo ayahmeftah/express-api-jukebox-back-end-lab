@@ -4,17 +4,16 @@ const dotenv = require("dotenv").config()
 const morgan = require("morgan")
 const connectToDB = require("./config/db")
 
-app.use(morgan("dev"))
-app.use(express.json())
+const tracksRoutes = require('./routes/tracksRoutes')
 
 connectToDB()
 
+app.use(morgan("dev"))
+app.use(express.json())
+
+app.use('/tracks', tracksRoutes)
 
 
-
-
-const port = process.env.PORT || 3000
-
-app.listen(port,()=>{
-    console.log("Listening on port " + port)
+app.listen(3000,()=>{
+    console.log("Listening on port 3000")
 })
